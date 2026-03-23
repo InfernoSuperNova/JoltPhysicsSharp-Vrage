@@ -1,7 +1,7 @@
 // Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
+using VRageMath;
 using System.Runtime.InteropServices;
 using static JoltPhysicsSharp.JoltApi;
 
@@ -118,7 +118,7 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CastRay(
-        in RVector3 origin,
+        in Vector3D origin,
         in Vector3 direction,
         out RayCastResult hit,
         BroadPhaseLayerFilter broadPhaseFilter,
@@ -132,7 +132,7 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CastRay(
-        in RVector3 origin,
+        in Vector3D origin,
         in Vector3 direction,
         RayCastSettings settings,
         JPH_CastRayCollector callback,
@@ -155,7 +155,7 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CastRay(
-        in RVector3 origin,
+        in Vector3D origin,
         in Vector3 direction,
         JPH_CastRayCollector callback,
         nint userData = 0,
@@ -177,7 +177,7 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CastRay(
-        in RVector3 origin,
+        in Vector3D origin,
         in Vector3 direction,
         RayCastSettings settings,
         CollisionCollectorType collectorType,
@@ -260,7 +260,7 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CollidePoint(
-        in RVector3 point,
+        in Vector3D point,
         JPH_CollidePointCollector callback,
         nint userData = 0,
         BroadPhaseLayerFilter? broadPhaseFilter = default,
@@ -281,7 +281,7 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CollidePoint(
-        in RVector3 point,
+        in Vector3D point,
         CollisionCollectorType collectorType,
         ICollection<CollidePointResult> results,
         BroadPhaseLayerFilter? broadPhaseFilter = default,
@@ -316,7 +316,7 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
 
     #region CollideShape
     public bool CollideShape(Shape shape,
-        in Vector3 scale, in Matrix4x4 centerOfMassTransform,
+        in Vector3 scale, in Matrix centerOfMassTransform,
         in Vector3 baseOffset,
         JPH_CollideShapeCollector callback,
         nint userData = 0,
@@ -341,7 +341,7 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CollideShape(Shape shape,
-        in Vector3 scale, in Matrix4x4 centerOfMassTransform,
+        in Vector3 scale, in Matrix centerOfMassTransform,
         in CollideShapeSettings settings,
         in Vector3 baseOffset,
         JPH_CollideShapeCollector callback,
@@ -368,7 +368,7 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CollideShape(Shape shape,
-        in Vector3 scale, in Matrix4x4 centerOfMassTransform,
+        in Vector3 scale, in Matrix centerOfMassTransform,
         in Vector3 baseOffset,
         CollisionCollectorType collectorType,
         ICollection<CollideShapeResult> results,
@@ -397,7 +397,7 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CollideShape(Shape shape,
-        in Vector3 scale, in Matrix4x4 centerOfMassTransform,
+        in Vector3 scale, in Matrix centerOfMassTransform,
         in CollideShapeSettings settings,
         in Vector3 baseOffset,
         CollisionCollectorType collectorType,
@@ -430,8 +430,8 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CollideShape(Shape shape,
-        in Vector3 scale, in RMatrix4x4 centerOfMassTransform,
-        in RVector3 baseOffset,
+        in Vector3 scale, in MatrixD centerOfMassTransform,
+        in Vector3D baseOffset,
         JPH_CollideShapeCollector callback,
         nint userData = 0,
         BroadPhaseLayerFilter? broadPhaseFilter = default,
@@ -455,9 +455,9 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CollideShape(Shape shape,
-        in Vector3 scale, in RMatrix4x4 centerOfMassTransform,
+        in Vector3 scale, in MatrixD centerOfMassTransform,
         in CollideShapeSettings settings,
-        in RVector3 baseOffset,
+        in Vector3D baseOffset,
         JPH_CollideShapeCollector callback,
         nint userData = 0,
         BroadPhaseLayerFilter? broadPhaseFilter = default,
@@ -482,8 +482,8 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CollideShape(Shape shape,
-        in Vector3 scale, in RMatrix4x4 centerOfMassTransform,
-        in RVector3 baseOffset,
+        in Vector3 scale, in MatrixD centerOfMassTransform,
+        in Vector3D baseOffset,
         CollisionCollectorType collectorType,
         ICollection<CollideShapeResult> results,
         BroadPhaseLayerFilter? broadPhaseFilter = default,
@@ -511,9 +511,9 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CollideShape(Shape shape,
-        in Vector3 scale, in RMatrix4x4 centerOfMassTransform,
+        in Vector3 scale, in MatrixD centerOfMassTransform,
         in CollideShapeSettings settings,
-        in RVector3 baseOffset,
+        in Vector3D baseOffset,
         CollisionCollectorType collectorType,
         ICollection<CollideShapeResult> results,
         BroadPhaseLayerFilter? broadPhaseFilter = default,
@@ -553,7 +553,7 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
 
     #region CastShape
     public bool CastShape(Shape shape,
-        in Matrix4x4 centerOfMassTransform,
+        in Matrix centerOfMassTransform,
         in Vector3 direction,
         in Vector3 baseOffset,
         JPH_CastShapeCollector callback,
@@ -578,7 +578,7 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CastShape(Shape shape,
-        in Matrix4x4 centerOfMassTransform, in Vector3 direction,
+        in Matrix centerOfMassTransform, in Vector3 direction,
         ShapeCastSettings settings,
         in Vector3 baseOffset,
         JPH_CastShapeCollector callback,
@@ -606,7 +606,7 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CastShape(Shape shape,
-        in Matrix4x4 centerOfMassTransform, in Vector3 direction,
+        in Matrix centerOfMassTransform, in Vector3 direction,
         in Vector3 baseOffset,
         CollisionCollectorType collectorType,
         ICollection<ShapeCastResult> results,
@@ -635,7 +635,7 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CastShape(Shape shape,
-        in Matrix4x4 centerOfMassTransform, in Vector3 direction,
+        in Matrix centerOfMassTransform, in Vector3 direction,
         ShapeCastSettings castSettings,
         in Vector3 baseOffset,
         CollisionCollectorType collectorType,
@@ -668,9 +668,9 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CastShape(Shape shape,
-        in RMatrix4x4 centerOfMassTransform,
+        in MatrixD centerOfMassTransform,
         in Vector3 direction,
-        in RVector3 baseOffset,
+        in Vector3D baseOffset,
         JPH_CastShapeCollector callback,
         nint userData = 0,
         BroadPhaseLayerFilter? broadPhaseFilter = default,
@@ -693,10 +693,10 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CastShape(Shape shape,
-        in RMatrix4x4 centerOfMassTransform,
+        in MatrixD centerOfMassTransform,
         in Vector3 direction,
         ShapeCastSettings settings,
-        in RVector3 baseOffset,
+        in Vector3D baseOffset,
         JPH_CastShapeCollector callback,
         nint userData = 0,
         BroadPhaseLayerFilter? broadPhaseFilter = default,
@@ -722,8 +722,8 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CastShape(Shape shape,
-        in RMatrix4x4 centerOfMassTransform, in Vector3 direction,
-        in RVector3 baseOffset,
+        in MatrixD centerOfMassTransform, in Vector3 direction,
+        in Vector3D baseOffset,
         CollisionCollectorType collectorType,
         ICollection<ShapeCastResult> results,
         BroadPhaseLayerFilter? broadPhaseFilter = default,
@@ -751,9 +751,9 @@ public readonly unsafe struct NarrowPhaseQuery : IEquatable<NarrowPhaseQuery>
     }
 
     public bool CastShape(Shape shape,
-        in RMatrix4x4 centerOfMassTransform, in Vector3 direction,
+        in MatrixD centerOfMassTransform, in Vector3 direction,
         ShapeCastSettings castSettings,
-        in RVector3 baseOffset,
+        in Vector3D baseOffset,
         CollisionCollectorType collectorType,
         ICollection<ShapeCastResult> results,
         BroadPhaseLayerFilter? broadPhaseFilter = default,

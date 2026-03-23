@@ -2,7 +2,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Diagnostics.CodeAnalysis;
-using System.Numerics;
+using VRageMath;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static JoltPhysicsSharp.JoltApi;
@@ -20,7 +20,7 @@ public struct MassProperties : IEquatable<MassProperties>
     /// <summary>
     /// Inertia tensor of the shape (kg m^2)
     /// </summary>
-    public Matrix4x4 Inertia = default;
+    public Matrix Inertia = default;
 
     public MassProperties()
     {
@@ -59,7 +59,7 @@ public struct MassProperties : IEquatable<MassProperties>
         // Calculate inertia
         Vector3 size_sq = boxSize * boxSize;
         Vector3 scale = (new Vector3(size_sq.Y, size_sq.X, size_sq.X) + new Vector3(size_sq.Z, size_sq.Z, size_sq.Y)) * (Mass / 12.0f);
-        Inertia = Matrix4x4.CreateScale(scale);
+        Inertia = Matrix.CreateScale(scale);
     }
 
     /// <summary>
@@ -90,7 +90,7 @@ public struct MassProperties : IEquatable<MassProperties>
         }
     }
 
-    public unsafe void DecomposePrincipalMomentsOfInertia(out Matrix4x4 rotation, out Vector3 diagonal)
+    public unsafe void DecomposePrincipalMomentsOfInertia(out Matrix rotation, out Vector3 diagonal)
     {
         Mat4 joltMatrix;
         JPH_MassProperties_DecomposePrincipalMomentsOfInertia(this, &joltMatrix, out diagonal);

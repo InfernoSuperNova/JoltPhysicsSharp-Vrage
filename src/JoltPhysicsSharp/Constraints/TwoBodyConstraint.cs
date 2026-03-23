@@ -1,7 +1,7 @@
 // Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
+using VRageMath;
 using System.Runtime.CompilerServices;
 using static JoltPhysicsSharp.JoltApi;
 
@@ -29,7 +29,7 @@ public unsafe class TwoBodyConstraint : Constraint
         get => Body.GetObject(JPH_TwoBodyConstraint_GetBody2(Handle))!;
     }
 
-    public Matrix4x4 ConstraintToBody1Matrix
+    public Matrix ConstraintToBody1Matrix
     {
         get
         {
@@ -39,7 +39,7 @@ public unsafe class TwoBodyConstraint : Constraint
         }
     }
 
-    public Matrix4x4 ConstraintToBody2Matrix
+    public Matrix ConstraintToBody2Matrix
     {
         get
         {
@@ -49,14 +49,14 @@ public unsafe class TwoBodyConstraint : Constraint
         }
     }
 
-    public void GetConstraintToBody1Matrix(out Matrix4x4 result)
+    public void GetConstraintToBody1Matrix(out Matrix result)
     {
         Mat4 joltMatrix;
         JPH_TwoBodyConstraint_GetConstraintToBody1Matrix(Handle, &joltMatrix);
         result = joltMatrix.FromJolt();
     }
 
-    public void GetConstraintToBody2Matrix(out Matrix4x4 result)
+    public void GetConstraintToBody2Matrix(out Matrix result)
     {
         Mat4 joltMatrix;
         JPH_TwoBodyConstraint_GetConstraintToBody2Matrix(Handle, &joltMatrix);

@@ -13,4 +13,6 @@
     <PackageReference Include="Raylib-cs" />
   </ItemGroup>
 
+  <Import Project="SpaceEngineers.props"/>
+
 </Project>

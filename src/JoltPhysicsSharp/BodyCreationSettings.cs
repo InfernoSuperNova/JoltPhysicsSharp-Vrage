@@ -1,7 +1,7 @@
 // Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
+using VRageMath;
 using System.Runtime.CompilerServices;
 using static JoltPhysicsSharp.JoltApi;
 
@@ -26,12 +26,12 @@ public sealed unsafe class BodyCreationSettings : NativeObject
         }
     }
 
-    public BodyCreationSettings(ShapeSettings shapeSettings, in RVector3 position, in Quaternion rotation, MotionType motionType, ObjectLayer objectLayer)
+    public BodyCreationSettings(ShapeSettings shapeSettings, in Vector3D position, in Quaternion rotation, MotionType motionType, ObjectLayer objectLayer)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use constructor with Vector3");
 
-        fixed (RVector3* positionPtr = &position)
+        fixed (Vector3D* positionPtr = &position)
         fixed (Quaternion* rotationPtr = &rotation)
         {
             Handle = JPH_BodyCreationSettings_Create2Double(shapeSettings.Handle, positionPtr, rotationPtr, motionType, objectLayer);
@@ -50,12 +50,12 @@ public sealed unsafe class BodyCreationSettings : NativeObject
         }
     }
 
-    public BodyCreationSettings(Shape shape, in RVector3 position, in Quaternion rotation, MotionType motionType, ObjectLayer objectLayer)
+    public BodyCreationSettings(Shape shape, in Vector3D position, in Quaternion rotation, MotionType motionType, ObjectLayer objectLayer)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use constructor with Vector3");
 
-        fixed (RVector3* positionPtr = &position)
+        fixed (Vector3D* positionPtr = &position)
         fixed (Quaternion* rotationPtr = &rotation)
         {
             Handle = JPH_BodyCreationSettings_Create3Double(shape.Handle, positionPtr, rotationPtr, motionType, objectLayer);

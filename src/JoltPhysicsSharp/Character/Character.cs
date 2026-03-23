@@ -1,7 +1,7 @@
 // Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
+using VRageMath;
 using System.Runtime.InteropServices;
 using static JoltPhysicsSharp.JoltApi;
 
@@ -19,7 +19,7 @@ public sealed class Character : CharacterBase
         Handle = JPH_Character_Create(&nativeSettings, position, rotation, userData, physicsSystem.Handle);
     }
 
-    public unsafe Character(CharacterSettings settings, in RVector3 position, in Quaternion rotation, ulong userData, PhysicsSystem physicsSystem)
+    public unsafe Character(CharacterSettings settings, in Vector3D position, in Quaternion rotation, ulong userData, PhysicsSystem physicsSystem)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use constructor with Vector3");
@@ -139,14 +139,14 @@ public sealed class Character : CharacterBase
         JPH_Character_GetCenterOfMassPosition(Handle, out position, lockBodies);
     }
 
-    public unsafe Matrix4x4 GetWorldTransform(bool lockBodies = true)
+    public unsafe Matrix GetWorldTransform(bool lockBodies = true)
     {
         Mat4 joltMatrix;
         JPH_Character_GetWorldTransform(Handle, &joltMatrix, lockBodies);
         return joltMatrix.FromJolt();
     }
 
-    public unsafe void GetWorldTransform(out Matrix4x4 result, bool lockBodies = true)
+    public unsafe void GetWorldTransform(out Matrix result, bool lockBodies = true)
     {
         Mat4 joltMatrix;
         JPH_Character_GetWorldTransform(Handle, &joltMatrix, lockBodies);

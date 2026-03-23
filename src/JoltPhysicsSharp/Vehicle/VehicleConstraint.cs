@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
+using VRageMath;
 using static JoltPhysicsSharp.JoltApi;
 
 namespace JoltPhysicsSharp;
@@ -102,14 +102,14 @@ public class VehicleConstraint : Constraint, IPhysicsStepListener
         JPH_VehicleConstraint_GetWheelLocalBasis(Handle, wheel.Handle, out forward, out up, out right);
     }
 
-    public unsafe Matrix4x4 GetWheelLocalTransform(int wheelIndex, in Vector3 wheelRight, in Vector3 wheelUp)
+    public unsafe Matrix GetWheelLocalTransform(int wheelIndex, in Vector3 wheelRight, in Vector3 wheelUp)
     {
         Mat4 joltMatrix;
         JPH_VehicleConstraint_GetWheelLocalTransform(Handle, wheelIndex, in wheelRight, in wheelUp, &joltMatrix);
         return joltMatrix.FromJolt();
     }
 
-    public unsafe Matrix4x4 GetWheelWorldTransform(int wheelIndex, in Vector3 wheelRight, in Vector3 wheelUp)
+    public unsafe Matrix GetWheelWorldTransform(int wheelIndex, in Vector3 wheelRight, in Vector3 wheelUp)
     {
         Mat4 joltMatrix;
         JPH_VehicleConstraint_GetWheelWorldTransform(Handle, wheelIndex, in wheelRight, in wheelUp, &joltMatrix);

@@ -1,7 +1,7 @@
 // Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
+using VRageMath;
 using System.Runtime.InteropServices;
 using static JoltPhysicsSharp.JoltApi;
 
@@ -62,19 +62,19 @@ internal static unsafe partial class JoltApi
     [LibraryImport(LibName)]
     public static partial void JPH_SkeletonPose_SetJointState(nint pose, int index, in Vector3 translation, in Quaternion rotation);
     [LibraryImport(LibName)]
-    public static partial void JPH_SkeletonPose_GetJointMatrix(nint pose, int index, out Matrix4x4 result);
+    public static partial void JPH_SkeletonPose_GetJointMatrix(nint pose, int index, out Matrix result);
     [LibraryImport(LibName)]
-    public static partial void JPH_SkeletonPose_SetJointMatrix(nint pose, int index, in Matrix4x4 matrix);
+    public static partial void JPH_SkeletonPose_SetJointMatrix(nint pose, int index, in Matrix matrix);
     [LibraryImport(LibName)]
-    public static partial void JPH_SkeletonPose_GetJointMatrices(nint pose, Matrix4x4* outMatrices, int count);
+    public static partial void JPH_SkeletonPose_GetJointMatrices(nint pose, Matrix* outMatrices, int count);
     [LibraryImport(LibName)]
-    public static partial void JPH_SkeletonPose_SetJointMatrices(nint pose, Matrix4x4* matrices, int count);
+    public static partial void JPH_SkeletonPose_SetJointMatrices(nint pose, Matrix* matrices, int count);
     [LibraryImport(LibName)]
     public static partial void JPH_SkeletonPose_CalculateJointMatrices(nint pose);
     [LibraryImport(LibName)]
     public static partial void JPH_SkeletonPose_CalculateJointStates(nint pose);
     [LibraryImport(LibName)]
-    public static partial void JPH_SkeletonPose_CalculateLocalSpaceJointMatrices(nint pose, Matrix4x4* outMatrices);
+    public static partial void JPH_SkeletonPose_CalculateLocalSpaceJointMatrices(nint pose, Matrix* outMatrices);
     #endregion
 
     #region SkeletalAnimation
@@ -107,15 +107,15 @@ internal static unsafe partial class JoltApi
     [LibraryImport(LibName)]
     public static partial void JPH_SkeletonMapper_Destroy(nint mapper);
     [LibraryImport(LibName)]
-    public static partial void JPH_SkeletonMapper_Initialize(nint mapper, nint skeleton1, in Matrix4x4 neutralPose1, nint skeleton2, in Matrix4x4 neutralPose2);
+    public static partial void JPH_SkeletonMapper_Initialize(nint mapper, nint skeleton1, in Matrix neutralPose1, nint skeleton2, in Matrix neutralPose2);
     [LibraryImport(LibName)]
-    public static partial void JPH_SkeletonMapper_LockAllTranslations(nint mapper, nint skeleton2, in Matrix4x4 neutralPose2);
+    public static partial void JPH_SkeletonMapper_LockAllTranslations(nint mapper, nint skeleton2, in Matrix neutralPose2);
     [LibraryImport(LibName)]
-    public static partial void JPH_SkeletonMapper_LockTranslations(nint mapper, nint skeleton2, Bool8* lockedTranslations, in Matrix4x4 neutralPose2);
+    public static partial void JPH_SkeletonMapper_LockTranslations(nint mapper, nint skeleton2, Bool8* lockedTranslations, in Matrix neutralPose2);
     [LibraryImport(LibName)]
-    public static partial void JPH_SkeletonMapper_Map(nint mapper, in Matrix4x4 pose1ModelSpace, in Matrix4x4 pose2LocalSpace, out Matrix4x4 outPose2ModelSpace);
+    public static partial void JPH_SkeletonMapper_Map(nint mapper, in Matrix pose1ModelSpace, in Matrix pose2LocalSpace, out Matrix outPose2ModelSpace);
     [LibraryImport(LibName)]
-    public static partial void JPH_SkeletonMapper_MapReverse(nint mapper, in Matrix4x4 pose2ModelSpace, out Matrix4x4 outPose1ModelSpace);
+    public static partial void JPH_SkeletonMapper_MapReverse(nint mapper, in Matrix pose2ModelSpace, out Matrix outPose1ModelSpace);
     [LibraryImport(LibName)]
     public static partial int JPH_SkeletonMapper_GetMappedJointIndex(nint mapper, int joint1Index);
     [LibraryImport(LibName)]

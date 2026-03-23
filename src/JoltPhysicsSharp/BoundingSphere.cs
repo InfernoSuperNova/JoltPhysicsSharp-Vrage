@@ -2,7 +2,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Diagnostics.CodeAnalysis;
-using System.Numerics;
+using VRageMath;
 using System.Runtime.CompilerServices;
 
 namespace JoltPhysicsSharp;
@@ -177,24 +177,24 @@ public struct BoundingSphere
     }
 
     /// <summary>
-    /// Translates and scales given <see cref="BoundingSphere"/> using a given <see cref="Matrix4x4"/>.
+    /// Translates and scales given <see cref="BoundingSphere"/> using a given <see cref="Matrix"/>.
     /// </summary>
     /// <param name="sphere">The source <see cref="BoundingSphere"/>.</param>
     /// <param name="transform">A transformation matrix that might include translation, rotation, or uniform scaling.</param>
     /// <returns>The transformed BoundingSphere.</returns>
-    public static BoundingSphere Transform(in BoundingSphere sphere, in Matrix4x4 transform)
+    public static BoundingSphere Transform(in BoundingSphere sphere, in Matrix transform)
     {
         Transform(sphere, transform, out BoundingSphere result);
         return result;
     }
 
     /// <summary>
-    /// Translates and scales given <see cref="BoundingSphere"/> using a given <see cref="Matrix4x4"/>.
+    /// Translates and scales given <see cref="BoundingSphere"/> using a given <see cref="Matrix"/>.
     /// </summary>
     /// <param name="sphere">The source <see cref="BoundingSphere"/>.</param>
     /// <param name="transform">A transformation matrix that might include translation, rotation, or uniform scaling.</param>
     /// <param name="result">The transformed BoundingSphere.</param>
-    public static void Transform(in BoundingSphere sphere, in Matrix4x4 transform, out BoundingSphere result)
+    public static void Transform(in BoundingSphere sphere, in Matrix transform, out BoundingSphere result)
     {
         Vector3 center = Vector3.Transform(sphere.Center, transform);
 
@@ -260,6 +260,6 @@ public struct BoundingSphere
     /// <inheritdoc />
     public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null)
     {
-        return $"BoundingSphere {{ {nameof(Center)} = {Center.ToString(format, formatProvider)}, {nameof(Radius)} = {Radius.ToString(format, formatProvider)} }}";
+        return $"BoundingSphere {{ {nameof(Center)} = ({Center.X.ToString(format, formatProvider)}, {Center.Y.ToString(format, formatProvider)}, {Center.Z.ToString(format, formatProvider)}), {nameof(Radius)} = {Radius.ToString(format, formatProvider)} }}";
     }
 }

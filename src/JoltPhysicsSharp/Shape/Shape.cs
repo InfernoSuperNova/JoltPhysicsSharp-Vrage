@@ -1,7 +1,7 @@
 // Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
+using VRageMath;
 using System.Runtime.InteropServices;
 using static JoltPhysicsSharp.JoltApi;
 
@@ -104,7 +104,7 @@ public class Shape : NativeObject
         JPH_Shape_GetMassProperties(Handle, out properties);
     }
 
-    public BoundingBox GetWorldSpaceBounds(in Matrix4x4 centerOfMassTransform, in Vector3 scale)
+    public BoundingBox GetWorldSpaceBounds(in Matrix centerOfMassTransform, in Vector3 scale)
     {
         if (DoublePrecision)
             throw new InvalidOperationException($"Double precision is enabled: use {nameof(GetRWorldSpaceBounds)}");
@@ -113,7 +113,7 @@ public class Shape : NativeObject
         return result;
     }
 
-    public void GetWorldSpaceBounds(in Matrix4x4 centerOfMassTransform, in Vector3 scale, out BoundingBox result)
+    public void GetWorldSpaceBounds(in Matrix centerOfMassTransform, in Vector3 scale, out BoundingBox result)
     {
         if (DoublePrecision)
             throw new InvalidOperationException($"Double precision is enabled: use {nameof(GetRWorldSpaceBounds)}");
@@ -121,7 +121,7 @@ public class Shape : NativeObject
         JPH_Shape_GetWorldSpaceBounds(Handle, centerOfMassTransform.ToJolt(), in scale, out result);
     }
 
-    public BoundingBox GetRWorldSpaceBounds(in RMatrix4x4 centerOfMassTransform, in Vector3 scale)
+    public BoundingBox GetRWorldSpaceBounds(in MatrixD centerOfMassTransform, in Vector3 scale)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use {nameof(GetWorldSpaceBounds)}");
@@ -130,7 +130,7 @@ public class Shape : NativeObject
         return result;
     }
 
-    public void GetRWorldSpaceBounds(in RMatrix4x4 centerOfMassTransform, in Vector3 scale, out BoundingBox result)
+    public void GetRWorldSpaceBounds(in MatrixD centerOfMassTransform, in Vector3 scale, out BoundingBox result)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use {nameof(GetWorldSpaceBounds)}");
@@ -211,7 +211,7 @@ public class Shape : NativeObject
     }
 
     public void Draw(DebugRenderer debugRenderer,
-        in Matrix4x4 centerOfMassTransform,
+        in Matrix centerOfMassTransform,
         in Vector3 scale,
         in JoltColor color,
         bool useMaterialColors,

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
+using VRageMath;
 using JoltPhysicsSharp;
 
 namespace HelloWorld;
@@ -135,7 +135,7 @@ public abstract class Sample : IDisposable
         return body;
     }
 
-    protected virtual ValidateResult OnContactValidate(PhysicsSystem system, in Body body1, in Body body2, RVector3 baseOffset, in CollideShapeResult collisionResult)
+    protected virtual ValidateResult OnContactValidate(PhysicsSystem system, in Body body1, in Body body2, Vector3D baseOffset, in CollideShapeResult collisionResult)
     {
         Console.WriteLine("Contact validate callback");
 

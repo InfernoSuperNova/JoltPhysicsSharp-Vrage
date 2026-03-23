@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
+using VRageMath;
 using static JoltPhysicsSharp.JoltApi;
 
 namespace JoltPhysicsSharp;
@@ -18,7 +18,7 @@ public abstract class CharacterBaseSettings
         SupportingVolume = settings.supportingVolume;
         MaxSlopeAngle = settings.maxSlopeAngle;
         EnhancedInternalEdgeRemoval = settings.enhancedInternalEdgeRemoval;
-        //Shape = settings.shape != 0 ? new 
+        //Shape = settings.shape != 0 ? new
     }
 
 

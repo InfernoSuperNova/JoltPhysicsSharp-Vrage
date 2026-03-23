@@ -1,7 +1,7 @@
 // Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
+using VRageMath;
 
 namespace JoltPhysicsSharp;
 
@@ -22,27 +22,25 @@ public unsafe record struct TransformedShape
 
     public Vector3 ShapeScale { get; set; } = Vector3.One;
 
-    public readonly Matrix4x4 CenterOfMassTransform => Matrix4x4.CreateFromQuaternion(ShapeRotation) * Matrix4x4.CreateTranslation(ShapePositionCOM);
-    public readonly Matrix4x4 InverseCenterOfMassTransform
+    public readonly Matrix CenterOfMassTransform => Matrix.CreateFromQuaternion(ShapeRotation) * Matrix.CreateTranslation(ShapePositionCOM);
+    public readonly Matrix InverseCenterOfMassTransform
     {
-        get
-        {
-            _ = Matrix4x4.Invert(CenterOfMassTransform, out Matrix4x4 result);
-            return result;
-        }
+        get => Matrix.Invert(CenterOfMassTransform);
     }
 
-    public Matrix4x4 WorldTransform
+    public Matrix WorldTransform
     {
         readonly get
         {
-            Matrix4x4 transform = Matrix4x4.CreateScale(ShapeScale) * Matrix4x4.CreateFromQuaternion(ShapeRotation);
+            Matrix transform = Matrix.CreateScale(ShapeScale) * Matrix.CreateFromQuaternion(ShapeRotation);
             transform.Translation = ShapePositionCOM - Vector3.Transform(Shape.CenterOfMass, transform);
             return transform;
         }
         set
         {
-            Matrix4x4.Decompose(value, out Vector3 scale, out Quaternion rotation, out Vector3 translation);
+            Vector3 scale = value.Scale;
+            Quaternion rotation = Quaternion.CreateFromRotationMatrix(value);
+            Vector3 translation = value.Translation;
             SetWorldTransform(translation, rotation, scale);
         }
     }
@@ -64,12 +62,12 @@ public unsafe record struct TransformedShape
     public readonly void GetWorldSpaceSurfaceNormal(in SubShapeID subShapeID, in Vector3 position, out Vector3 normal)
     {
         // MakeSubShapeIDRelativeToShape?
-        Matrix4x4 inv_com = InverseCenterOfMassTransform;
+        Matrix inv_com = InverseCenterOfMassTransform;
         Vector3 shapePosition = Vector3.Transform(position, inv_com) / ShapeScale;
         Shape.GetSurfaceNormal(subShapeID, in shapePosition, out normal);
 
         // return inv_com.Multiply3x3Transposed(mShape->GetSurfaceNormal(MakeSubShapeIDRelativeToShape(inSubShapeID), Vec3(inv_com * inPosition) / scale) / scale).Normalized();
-        normal = Vector3.Normalize(Vector3.Transform(normal / ShapeScale, Matrix4x4.Transpose(inv_com)));
+        normal = Vector3.Normalize(Vector3.Transform(normal / ShapeScale, Matrix.Transpose(inv_com)));
     }
 
     public readonly Vector3 GetWorldSpaceSurfaceNormal(in SubShapeID subShapeID, in Vector3 position)

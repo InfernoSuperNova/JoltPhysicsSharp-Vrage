@@ -1,7 +1,7 @@
 // Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
+using VRageMath;
 using System.Runtime.InteropServices;
 using static JoltPhysicsSharp.JoltApi;
 
@@ -50,13 +50,13 @@ public abstract class CharacterVsCharacterCollisionListener : NativeObject
 
     protected abstract void CollideCharacter(
         CharacterVirtual character,
-        in Matrix4x4 centerOfMassTransform,
+        in Matrix centerOfMassTransform,
         in CollideShapeSettings collideShapeSettings,
         in Vector3 baseOffset/*, CollideShapeCollector &ioCollector*/);
 
     protected abstract void CastCharacter(
         CharacterVirtual character,
-        in Matrix4x4 centerOfMassTransform,
+        in Matrix centerOfMassTransform,
         in Vector3 direction,
         in ShapeCastSettings collideShapeSettings,
         in Vector3 baseOffset/*, CastShapeCollector  &ioCollector*/);

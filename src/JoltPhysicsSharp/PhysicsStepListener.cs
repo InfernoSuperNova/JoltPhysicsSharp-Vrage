@@ -2,7 +2,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System;
-using System.Numerics;
+using VRageMath;
 using System.Runtime.InteropServices;
 using static JoltPhysicsSharp.JoltApi;
 
@@ -67,7 +67,7 @@ public class PhysicsStepListener : NativeObject, IPhysicsStepListener
 
 public interface IPhysicsStepListener
 {
-    public nint Handle { get; } 
+    public nint Handle { get; }
 }
 
 public struct PhysicsStepListenerContext

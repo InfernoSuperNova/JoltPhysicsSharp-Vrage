@@ -1,14 +1,14 @@
 // Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
+using VRageMath;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static JoltPhysicsSharp.JoltApi;
 
 namespace JoltPhysicsSharp;
 
-public delegate ValidateResult ContactValidateHandler(PhysicsSystem system, in Body body1, in Body body2, RVector3 baseOffset, in CollideShapeResult collisionResult);
+public delegate ValidateResult ContactValidateHandler(PhysicsSystem system, in Body body1, in Body body2, Vector3D baseOffset, in CollideShapeResult collisionResult);
 public delegate void ContactAddedHandler(PhysicsSystem system, in Body body1, in Body body2, in ContactManifold manifold, ref ContactSettings settings);
 public delegate void ContactPersistedHandler(PhysicsSystem system, in Body body1, in Body body2, in ContactManifold manifold, ref ContactSettings settings);
 public delegate void ContactRemovedHandler(PhysicsSystem system, ref SubShapeIDPair subShapePair);
@@ -318,14 +318,14 @@ public sealed unsafe class PhysicsSystem : NativeObject
 
         if (listener.OnContactValidate != null)
         {
-            return (uint)listener.OnContactValidate(listener, Body.GetObject(body1)!, Body.GetObject(body2)!, new RVector3(*baseOffset), *collisionResult);
+            return (uint)listener.OnContactValidate(listener, Body.GetObject(body1)!, Body.GetObject(body2)!, new Vector3D(*baseOffset), *collisionResult);
         }
 
         return (uint)ValidateResult.AcceptAllContactsForThisBodyPair;
     }
 
     [UnmanagedCallersOnly]
-    private static unsafe uint OnContactValidateCallbackDouble(nint context, nint body1, nint body2, RVector3* baseOffset, CollideShapeResult* collisionResult)
+    private static unsafe uint OnContactValidateCallbackDouble(nint context, nint body1, nint body2, Vector3D* baseOffset, CollideShapeResult* collisionResult)
     {
         PhysicsSystem listener = DelegateProxies.GetUserData<PhysicsSystem>(context, out _);
 

@@ -9,11 +9,6 @@
     <File Path="NuGet.config" />
     <File Path="README.md" />
   </Folder>
-  <Folder Name="/samples/">
-    <Project Path="samples/01-HelloWorld/01-HelloWorld.csproj" />
-    <Project Path="samples/Alimer.SampleFramework/Alimer.SampleFramework.csproj" />
-    <Project Path="samples/HelloWorld/HelloWorld.csproj" />
-  </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/JoltPhysicsSharp.Tests.csproj" />
   </Folder>

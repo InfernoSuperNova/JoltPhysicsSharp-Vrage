@@ -2,7 +2,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Diagnostics.CodeAnalysis;
-using System.Numerics;
+using VRageMath;
 using System.Runtime.CompilerServices;
 
 namespace JoltPhysicsSharp;
@@ -60,7 +60,7 @@ public struct Ray
     /// </summary>
     /// <param name="transform"></param>
     /// <returns></returns>
-	public static Ray Transform(in Ray ray, in Matrix4x4 transform)
+	public static Ray Transform(in Ray ray, in Matrix transform)
     {
         Vector3 rayOrigin = Vector3.Transform(ray.Position, transform);
         Vector3 rayDirection = Vector3.Transform(ray.Position + ray.Direction, transform) - rayOrigin;
@@ -119,6 +119,6 @@ public struct Ray
     /// <inheritdoc />
     public readonly string ToString(string? format, IFormatProvider? formatProvider)
     {
-        return $"Position:{Position.ToString(format, formatProvider)} Direction:{Direction.ToString(format, formatProvider)}";
+        return $"Position:({Position.X.ToString(format, formatProvider)}, {Position.Y.ToString(format, formatProvider)}, {Position.Z.ToString(format, formatProvider)}) Direction:({Direction.X.ToString(format, formatProvider)}, {Direction.Y.ToString(format, formatProvider)}, {Direction.Z.ToString(format, formatProvider)})";
     }
 }

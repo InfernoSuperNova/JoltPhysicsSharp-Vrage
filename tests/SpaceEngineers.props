@@ -1,0 +1,348 @@
+<Project>
+    <Import Project="LocalPaths.props" Condition="Exists('LocalPaths.props')" />
+
+    <PropertyGroup>
+        <!-- Use SEGameDir from GamePath.props if it's not empty -->
+        <SEGameDirResolved Condition="'$(SEGameDirResolved)' == '' AND '$(SEGameDir)' != ''">$(SEGameDir)</SEGameDirResolved>
+
+        <!-- Otherwise, check SE_GAME_DIR environment variable -->
+        <SEGameDirResolved Condition="'$(SEGameDirResolved)' == '' AND '$(SE_GAME_DIR)' != ''">$(SE_GAME_DIR)</SEGameDirResolved>
+
+        <!-- Known linux dirs -->
+        <SEGameDirResolved Condition="'$(SEGameDirResolved)' == '' AND Exists('$(HOME)/.steam/steam/steamapps/common/SpaceEngineers/Bin64')">$(HOME)/.steam/steam/steamapps/common/SpaceEngineers</SEGameDirResolved>
+        <SEGameDirResolved Condition="'$(SEGameDirResolved)' == '' AND Exists('$(HOME)/.steam/debian-installation/steamapps/common/SpaceEngineers/Bin64')">$(HOME)/.steam/debian-installation/steamapps/common/SpaceEngineers</SEGameDirResolved>
+        <SEGameDirResolved Condition="'$(SEGameDirResolved)' == '' AND Exists('$(HOME)/.local/share/Steam/steamapps/common/SpaceEngineers/Bin64')">$(HOME)/.local/share/Steam/steamapps/common/SpaceEngineers</SEGameDirResolved>
+
+        <!-- Known windows dirs -->
+        <SEGameDirResolved Condition="'$(SEGameDirResolved)' == '' AND Exists('C:\Program Files (x86)\Steam\steamapps\common\SpaceEngineers\Bin64')">C:\Program Files (x86)\Steam\steamapps\common\SpaceEngineers</SEGameDirResolved>
+        <SEGameDirResolved Condition="'$(SEGameDirResolved)' == '' AND Exists('D:\SteamLibrary\steamapps\common\SpaceEngineers\Bin64')">D:\SteamLibrary\steamapps\common\SpaceEngineers</SEGameDirResolved>
+
+        <!-- Mac users in shambles -->
+        <SEGameDirResolved Condition="'$(SEGameDirResolved)' == ''">SPACE_ENGINEERS_NOT_FOUND</SEGameDirResolved>
+
+        <SEBinDir>$(SEGameDirResolved)/Bin64</SEBinDir>
+    </PropertyGroup>
+
+    <Target Name="ValidateSEPath" BeforeTargets="BeforeBuild">
+        <Error Condition="'$(SEGameDirResolved)' == 'SPACE_ENGINEERS_NOT_FOUND'"
+               Text="Space Engineers installation not found!%0APlease either:%0A  1. Edit GamePath.props and set SEGameDir to your Space Engineers installation path, OR%0A  2. Set the SE_GAME_DIR environment variable" />
+        <Message Text="Using Space Engineers from: $(SEGameDirResolved)" Importance="high" />
+    </Target>
+
+    <ItemGroup>
+        <Reference Include="0Harmony">
+            <HintPath>$(SEBinDir)/0Harmony.dll</HintPath>
+        </Reference>
+        <Reference Include="CppNet">
+            <HintPath>$(SEBinDir)/CppNet.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="DirectShowLib">
+            <HintPath>$(SEBinDir)/DirectShowLib.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="EmptyKeys.UserInterface">
+            <HintPath>$(SEBinDir)/EmptyKeys.UserInterface.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="EmptyKeys.UserInterface.Core">
+            <HintPath>$(SEBinDir)/EmptyKeys.UserInterface.Core.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="EOSSDK">
+            <HintPath>$(SEBinDir)/EOSSDK.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="GameAnalytics.Mono">
+            <HintPath>$(SEBinDir)/GameAnalytics.Mono.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+
+        <Reference Include="Microsoft.CodeAnalysis">
+            <HintPath>$(SEBinDir)/Microsoft.CodeAnalysis.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Microsoft.CodeAnalysis.CSharp">
+            <HintPath>$(SEBinDir)/Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="netstandard">
+            <HintPath>$(SEBinDir)/netstandard.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+            <HintPath>$(SEBinDir)/Newtonsoft.Json.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="NLog">
+            <HintPath>$(SEBinDir)/NLog.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="NuGet.Common">
+            <HintPath>$(SEBinDir)/NuGet.Common.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="NuGet.Configuration">
+            <HintPath>$(SEBinDir)/NuGet.Configuration.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="NuGet.Frameworks">
+            <HintPath>$(SEBinDir)/NuGet.Frameworks.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="NuGet.Packaging">
+            <HintPath>$(SEBinDir)/NuGet.Packaging.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="NuGet.Protocol">
+            <HintPath>$(SEBinDir)/NuGet.Protocol.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="NuGet.Resolver">
+            <HintPath>$(SEBinDir)/NuGet.Resolver.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="NuGet.Versioning">
+            <HintPath>$(SEBinDir)/NuGet.Versioning.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="PluginLoader">
+            <HintPath>$(SEBinDir)/PluginLoader.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="ProtoBuf.Net">
+            <HintPath>$(SEBinDir)/ProtoBuf.Net.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="ProtoBuf.Net.Core">
+            <HintPath>$(SEBinDir)/ProtoBuf.Net.Core.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="RecastDetourWrapper">
+            <HintPath>$(SEBinDir)/RecastDetourWrapper.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="RestSharp">
+            <HintPath>$(SEBinDir)/RestSharp.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Sandbox.Common">
+            <HintPath>$(SEBinDir)/Sandbox.Common.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Sandbox.Game">
+            <HintPath>$(SEBinDir)/Sandbox.Game.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Sandbox.Game.XmlSerializers">
+            <HintPath>$(SEBinDir)/Sandbox.Game.XmlSerializers.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Sandbox.Graphics">
+            <HintPath>$(SEBinDir)/Sandbox.Graphics.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Sandbox.RenderDirect">
+            <HintPath>$(SEBinDir)/Sandbox.RenderDirect.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="SharpDX">
+            <HintPath>$(SEBinDir)/SharpDX.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="SharpDX.D3DCompiler">
+            <HintPath>$(SEBinDir)/SharpDX.D3DCompiler.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="SharpDX.Desktop">
+            <HintPath>$(SEBinDir)/SharpDX.Desktop.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="SharpDX.Direct3D11">
+            <HintPath>$(SEBinDir)/SharpDX.Direct3D11.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="SharpDX.DirectInput">
+            <HintPath>$(SEBinDir)/SharpDX.DirectInput.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="SharpDX.DXGI">
+            <HintPath>$(SEBinDir)/SharpDX.DXGI.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="SharpDX.XAudio2">
+            <HintPath>$(SEBinDir)/SharpDX.XAudio2.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="SharpDX.XInput">
+            <HintPath>$(SEBinDir)/SharpDX.XInput.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="SixLabors.Core">
+            <HintPath>$(SEBinDir)/SixLabors.Core.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="SixLabors.ImageSharp">
+            <HintPath>$(SEBinDir)/SixLabors.ImageSharp.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="SpaceEngineers">
+            <HintPath>$(SEBinDir)/SpaceEngineers.exe</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="SpaceEngineers.Game">
+            <HintPath>$(SEBinDir)/SpaceEngineers.Game.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="SpaceEngineers.ObjectBuilders">
+            <HintPath>$(SEBinDir)/SpaceEngineers.ObjectBuilders.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="SpaceEngineers.ObjectBuilders.XmlSerializers">
+            <HintPath>$(SEBinDir)/SpaceEngineers.ObjectBuilders.XmlSerializers.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="SpaceEngineersLauncher">
+            <HintPath>$(SEBinDir)/SpaceEngineersLauncher.exe</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Steamworks.NET">
+            <HintPath>$(SEBinDir)/Steamworks.NET.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="System.Buffers">
+            <HintPath>$(SEBinDir)/System.Buffers.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="System.Collections.Immutable">
+            <HintPath>$(SEBinDir)/System.Collections.Immutable.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="System.ComponentModel.Annotations">
+            <HintPath>$(SEBinDir)/System.ComponentModel.Annotations.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="System.Data.SQLite">
+            <HintPath>$(SEBinDir)/System.Data.SQLite.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="System.Memory">
+            <HintPath>$(SEBinDir)/System.Memory.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="System.Numerics.Vectors">
+            <HintPath>$(SEBinDir)/System.Numerics.Vectors.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="System.Reflection.Metadata">
+            <HintPath>$(SEBinDir)/System.Reflection.Metadata.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="System.Runtime.CompilerServices.Unsafe">
+            <HintPath>$(SEBinDir)/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="System.Text.Encoding.CodePages">
+            <HintPath>$(SEBinDir)/System.Text.Encoding.CodePages.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="System.Threading.Tasks.Extensions">
+            <HintPath>$(SEBinDir)/System.Threading.Tasks.Extensions.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage">
+            <HintPath>$(SEBinDir)/VRage.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.Ansel">
+            <HintPath>$(SEBinDir)/VRage.Ansel.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.Audio">
+            <HintPath>$(SEBinDir)/VRage.Audio.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.EOS">
+            <HintPath>$(SEBinDir)/VRage.EOS.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.EOS.XmlSerializers">
+            <HintPath>$(SEBinDir)/VRage.EOS.XmlSerializers.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.Game">
+            <HintPath>$(SEBinDir)/VRage.Game.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.Game.XmlSerializers">
+            <HintPath>$(SEBinDir)/VRage.Game.XmlSerializers.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.Input">
+            <HintPath>$(SEBinDir)/VRage.Input.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.Library">
+            <HintPath>$(SEBinDir)/VRage.Library.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.Math">
+            <HintPath>$(SEBinDir)/VRage.Math.dll</HintPath>
+            <Private>true</Private>
+
+        </Reference>
+        <Reference Include="VRage.Math.XmlSerializers">
+            <HintPath>$(SEBinDir)/VRage.Math.XmlSerializers.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="VRage.Mod.Io">
+            <HintPath>$(SEBinDir)/VRage.Mod.Io.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.NativeAftermath">
+            <HintPath>$(SEBinDir)/VRage.NativeAftermath.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.NativeWrapper">
+            <HintPath>$(SEBinDir)/VRage.NativeWrapper.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.Network">
+            <HintPath>$(SEBinDir)/VRage.Network.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.Platform.Windows">
+            <HintPath>$(SEBinDir)/VRage.Platform.Windows.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.Render">
+            <HintPath>$(SEBinDir)/VRage.Render.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.Render11">
+            <HintPath>$(SEBinDir)/VRage.Render11.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.Scripting">
+            <HintPath>$(SEBinDir)/VRage.Scripting.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.Steam">
+            <HintPath>$(SEBinDir)/VRage.Steam.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.UserInterface">
+            <HintPath>$(SEBinDir)/VRage.UserInterface.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="VRage.XmlSerializers">
+            <HintPath>$(SEBinDir)/VRage.XmlSerializers.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="HavokWrapper">
+            <HintPath>$(SEBinDir)/HavokWrapper.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="System.Xml" />
+    </ItemGroup>
+</Project>

@@ -2,7 +2,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Diagnostics;
-using System.Numerics;
+using VRageMath;
 using JoltPhysicsSharp;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
@@ -93,9 +93,9 @@ public abstract class Application : DisposableObject
         // Create the main camera
         MainCamera = new()
         {
-            Position = new Vector3(-20.0f, 8.0f, 10.0f),
-            Target = new Vector3(0.0f, 4.0f, 0.0f),
-            Up = new Vector3(0.0f, 1.0f, 0.0f),
+            Position = new VrageVec3ToNumericsVec3(new Vector3(-20.0f, 8.0f, 10.0f)),
+            Target = new VrageVec3ToNumericsVec3(new Vector3(0.0f, 4.0f, 0.0f)),
+            Up = new VrageVec3ToNumericsVec3(new Vector3(0.0f, 1.0f, 0.0f)),
             FovY = 45.0f,
             Projection = CameraProjection.Perspective
         };
@@ -180,15 +180,15 @@ public abstract class Application : DisposableObject
 
                 //Vector3 pos = BodyInterface.GetPosition(bodyID);
                 //Quaternion rot = BodyInterface.GetRotation(bodyID);
-                //Matrix4x4 ori = Matrix4x4.CreateFromQuaternion(rot);
-                //Matrix4x4 matrix = new(
+                //Matrix ori = Matrix.CreateFromQuaternion(rot);
+                //Matrix matrix = new(
                 //    ori.M11, ori.M12, ori.M13, pos.X,
                 //    ori.M21, ori.M22, ori.M23, pos.Y,
                 //    ori.M31, ori.M32, ori.M33, pos.Z,
                 //    0, 0, 0, 1.0f);
 
                 // Raylib uses column major matrix
-                Matrix4x4 worldTransform = BodyInterface.GetWorldTransform(bodyID);
+                Matrix worldTransform = BodyInterface.GetWorldTransform(bodyID);
                 DrawMesh(BoxMesh, BoxMaterial, worldTransform);
             }
 
@@ -200,6 +200,22 @@ public abstract class Application : DisposableObject
         }
 
         CloseWindow();
+    }
+
+    private System.Numerics.Vector3 VrageVec3ToNumericsVec3(Vector3 vec)
+    {
+        unsafe
+        {
+            return *(System.Numerics.Vector3*)&vec;
+        }
+    }
+
+    private Vector3 NumericsVec3ToVrageVec3(System.Numerics.Vector3 vec)
+    {
+        unsafe
+        {
+            return *(Vector3*)&vec;
+        }
     }
 
     #region Raylib
@@ -413,7 +429,7 @@ public abstract class Application : DisposableObject
         return constraint;
     }
 
-    protected virtual ValidateResult OnContactValidate(PhysicsSystem system, in Body body1, in Body body2, RVector3 baseOffset, in CollideShapeResult collisionResult)
+    protected virtual ValidateResult OnContactValidate(PhysicsSystem system, in Body body1, in Body body2, Vector3D baseOffset, in CollideShapeResult collisionResult)
     {
         TraceLog(TraceLogLevel.Debug, "Contact validate callback");
 

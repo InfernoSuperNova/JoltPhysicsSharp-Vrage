@@ -1,7 +1,7 @@
 // Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
+using VRageMath;
 using static JoltPhysicsSharp.JoltApi;
 
 namespace JoltPhysicsSharp;
@@ -31,7 +31,7 @@ public class RagdollSettings : NativeObject
 
     public bool Stabilize() => JPH_RagdollSettings_Stabilize(Handle);
 
-    public unsafe void DisableParentChildCollisions(in Matrix4x4? jointMatrices = default, float minSeparationDistance = 0.0f)
+    public unsafe void DisableParentChildCollisions(in Matrix? jointMatrices = default, float minSeparationDistance = 0.0f)
     {
         Mat4 callJointMatrices = jointMatrices.HasValue ? jointMatrices.Value.ToJolt() : default;
         JPH_RagdollSettings_DisableParentChildCollisions(Handle,
@@ -144,7 +144,7 @@ public class Ragdoll : NativeObject
         JPH_Ragdoll_SetPose(Handle, pose.Handle, lockBodies);
     }
 
-    public void SetPose(in Vector3 rootOffset, in Matrix4x4 jointMatrices, bool lockBodies = true)
+    public void SetPose(in Vector3 rootOffset, in Matrix jointMatrices, bool lockBodies = true)
     {
         JPH_Ragdoll_SetPose2(Handle, rootOffset, jointMatrices, lockBodies);
     }
@@ -158,7 +158,7 @@ public class Ragdoll : NativeObject
         return SkeletonPose.GetObject(handle);
     }
 
-    public void GetPose2(out Vector3 rootOffset, out Matrix4x4 jointMatrices, bool lockBodies = true)
+    public void GetPose2(out Vector3 rootOffset, out Matrix jointMatrices, bool lockBodies = true)
     {
         JPH_Ragdoll_GetPose2(Handle, out rootOffset, out jointMatrices, lockBodies);
     }

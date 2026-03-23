@@ -2,12 +2,12 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System;
-using System.Numerics;
+using VRageMath;
 using static JoltPhysicsSharp.JoltApi;
 
 namespace JoltPhysicsSharp;
 
-public struct VehicleDifferentialSettings 
+public struct VehicleDifferentialSettings
 {
     public int LeftWheel { get; set; }
     public int RightWheel { get; set; }

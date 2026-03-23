@@ -2,7 +2,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Diagnostics;
-using System.Numerics;
+using VRageMath;
 using JoltPhysicsSharp;
 
 namespace HelloWorld;
@@ -48,9 +48,9 @@ public class HelloWorld : Sample
             // Output current position and velocity of the sphere
             Vector3 position = BodyInterface.GetCenterOfMassPosition(_sphere.ID);
             Vector3 velocity = BodyInterface.GetLinearVelocity(_sphere.ID);
-            //Matrix4x4 transform = bodyInterface.GetWorldTransform(sphereID);
+            //Matrix transform = bodyInterface.GetWorldTransform(sphereID);
             //Vector3 translation = bodyInterface.GetWorldTransform(sphereID).Translation;
-            //Matrix4x4 centerOfMassTransform = bodyInterface.GetCenterOfMassTransform(sphereID);
+            //Matrix centerOfMassTransform = bodyInterface.GetCenterOfMassTransform(sphereID);
             Console.WriteLine($"Step {step} : Position = ({position}), Velocity = ({velocity})");
 
             // If you take larger steps than 1 / 60th of a second you need to do multiple collision steps in order to keep the simulation stable. Do 1 collision step per 1 / 60th of a second (round up).

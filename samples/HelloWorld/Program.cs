@@ -2,7 +2,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Diagnostics;
-using System.Numerics;
+using VRageMath;
 using JoltPhysicsSharp;
 
 namespace HelloWorld;
@@ -20,7 +20,7 @@ public static class Program
 
         for (int torus_segment = 0; torus_segment < inTorusSegments; ++torus_segment)
         {
-            Matrix4x4 rotation = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, (float)torus_segment * 2.0f * (float)Math.PI / inTorusSegments);
+            Matrix rotation = Matrix.CreateFromAxisAngle(Vector3.UnitY, (float)torus_segment * 2.0f * (float)Math.PI / inTorusSegments);
             for (int tube_segment = 0; tube_segment < inTubeSegments; ++tube_segment)
             {
                 // Create vertices

@@ -1,7 +1,7 @@
 // Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
+using VRageMath;
 using System.Runtime.CompilerServices;
 using static JoltPhysicsSharp.JoltApi;
 
@@ -149,23 +149,23 @@ public readonly unsafe struct BodyInterface(nint handle) : IEquatable<BodyInterf
         }
     }
 
-    public RVector3 GetRCenterOfMassPosition(in BodyID bodyID)
+    public Vector3D GetRCenterOfMassPosition(in BodyID bodyID)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use {nameof(GetCenterOfMassPosition)}");
 
-        RVector3 result;
+        Vector3D result;
         JPH_BodyInterface_GetCenterOfMassPositionDouble(Handle, bodyID, &result);
         return result;
     }
 
-    public void GetRCenterOfMassPosition(in BodyID bodyID, out RVector3 position)
+    public void GetRCenterOfMassPosition(in BodyID bodyID, out Vector3D position)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use {nameof(GetCenterOfMassPosition)}");
 
         Unsafe.SkipInit(out position);
-        fixed (RVector3* positionPtr = &position)
+        fixed (Vector3D* positionPtr = &position)
         {
             JPH_BodyInterface_GetCenterOfMassPositionDouble(Handle, bodyID, positionPtr);
         }
@@ -234,7 +234,7 @@ public readonly unsafe struct BodyInterface(nint handle) : IEquatable<BodyInterf
         JPH_BodyInterface_SetPosition(Handle, bodyID, in position, activationMode);
     }
 
-    public void SetRPosition(in BodyID bodyID, in RVector3 position, Activation activationMode)
+    public void SetRPosition(in BodyID bodyID, in Vector3D position, Activation activationMode)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use {nameof(SetPosition)}");
@@ -260,16 +260,16 @@ public readonly unsafe struct BodyInterface(nint handle) : IEquatable<BodyInterf
         JPH_BodyInterface_GetPosition(Handle, bodyID, out position);
     }
 
-    public RVector3 GetRPosition(in BodyID bodyID)
+    public Vector3D GetRPosition(in BodyID bodyID)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use {nameof(GetPosition)}");
 
-        JPH_BodyInterface_GetPositionDouble(Handle, bodyID, out RVector3 position);
+        JPH_BodyInterface_GetPositionDouble(Handle, bodyID, out Vector3D position);
         return position;
     }
 
-    public void GetRPosition(in BodyID bodyID, out RVector3 position)
+    public void GetRPosition(in BodyID bodyID, out Vector3D position)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use {nameof(GetPosition)}");
@@ -297,7 +297,7 @@ public readonly unsafe struct BodyInterface(nint handle) : IEquatable<BodyInterf
         JPH_BodyInterface_SetPositionAndRotation(Handle, bodyID, in position, in rotation, activationMode);
     }
 
-    public void SetRPositionAndRotation(in BodyID bodyID, in RVector3 position, in Quaternion rotation, Activation activationMode)
+    public void SetRPositionAndRotation(in BodyID bodyID, in Vector3D position, in Quaternion rotation, Activation activationMode)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use {nameof(SetPositionAndRotation)}");
@@ -313,7 +313,7 @@ public readonly unsafe struct BodyInterface(nint handle) : IEquatable<BodyInterf
         JPH_BodyInterface_SetPositionAndRotationWhenChanged(Handle, bodyID, in position, in rotation, activationMode);
     }
 
-    public void SetRPositionAndRotationWhenChanged(in BodyID bodyID, in RVector3 position, in Quaternion rotation, Activation activationMode)
+    public void SetRPositionAndRotationWhenChanged(in BodyID bodyID, in Vector3D position, in Quaternion rotation, Activation activationMode)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use {nameof(SetPositionAndRotationWhenChanged)}");
@@ -331,7 +331,7 @@ public readonly unsafe struct BodyInterface(nint handle) : IEquatable<BodyInterf
             JPH_BodyInterface_SetPositionRotationAndVelocity(Handle, bodyID, in position, in rotation, in linearVelocity, in angularVelocity);
     }
 
-    public void SetRPositionRotationAndVelocity(in BodyID bodyID, in RVector3 position, in Quaternion rotation, in Vector3 linearVelocity, in Vector3 angularVelocity)
+    public void SetRPositionRotationAndVelocity(in BodyID bodyID, in Vector3D position, in Quaternion rotation, in Vector3 linearVelocity, in Vector3 angularVelocity)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use {nameof(SetPositionRotationAndVelocity)}");
@@ -408,7 +408,7 @@ public readonly unsafe struct BodyInterface(nint handle) : IEquatable<BodyInterf
     }
 
     #region GetWorldTransform
-    public Matrix4x4 GetWorldTransform(in BodyID bodyID)
+    public Matrix GetWorldTransform(in BodyID bodyID)
     {
         if (DoublePrecision)
             throw new InvalidOperationException($"Double precision is enabled: use {nameof(GetRWorldTransform)}");
@@ -418,7 +418,7 @@ public readonly unsafe struct BodyInterface(nint handle) : IEquatable<BodyInterf
         return result.FromJolt();
     }
 
-    public void GetWorldTransform(in BodyID bodyID, out Matrix4x4 transform)
+    public void GetWorldTransform(in BodyID bodyID, out Matrix transform)
     {
         if (DoublePrecision)
             throw new InvalidOperationException($"Double precision is enabled: use {nameof(GetRWorldTransform)}");
@@ -428,23 +428,23 @@ public readonly unsafe struct BodyInterface(nint handle) : IEquatable<BodyInterf
         transform = result.FromJolt();
     }
 
-    public RMatrix4x4 GetRWorldTransform(in BodyID bodyID)
+    public MatrixD GetRWorldTransform(in BodyID bodyID)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use {nameof(GetWorldTransform)}");
 
-        RMatrix4x4 result;
+        MatrixD result;
         JPH_BodyInterface_GetWorldTransformDouble(Handle, bodyID, &result);
         return result;
     }
 
-    public void GetRWorldTransform(in BodyID bodyID, out RMatrix4x4 transform)
+    public void GetRWorldTransform(in BodyID bodyID, out MatrixD transform)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use {nameof(GetWorldTransform)}");
 
         Unsafe.SkipInit(out transform);
-        fixed (RMatrix4x4* transformPtr = &transform)
+        fixed (MatrixD* transformPtr = &transform)
         {
             JPH_BodyInterface_GetWorldTransformDouble(Handle, bodyID, transformPtr);
         }
@@ -452,7 +452,7 @@ public readonly unsafe struct BodyInterface(nint handle) : IEquatable<BodyInterf
     #endregion
 
     #region GetCenterOfMassTransform
-    public unsafe Matrix4x4 GetCenterOfMassTransform(in BodyID bodyID)
+    public unsafe Matrix GetCenterOfMassTransform(in BodyID bodyID)
     {
         if (DoublePrecision)
             throw new InvalidOperationException($"Double precision is enabled: use {nameof(GetRCenterOfMassTransform)}");
@@ -462,7 +462,7 @@ public readonly unsafe struct BodyInterface(nint handle) : IEquatable<BodyInterf
         return result.FromJolt();
     }
 
-    public unsafe void GetCenterOfMassTransform(in BodyID bodyID, out Matrix4x4 transform)
+    public unsafe void GetCenterOfMassTransform(in BodyID bodyID, out Matrix transform)
     {
         if (DoublePrecision)
             throw new InvalidOperationException($"Double precision is enabled: use {nameof(GetRCenterOfMassTransform)}");
@@ -472,23 +472,23 @@ public readonly unsafe struct BodyInterface(nint handle) : IEquatable<BodyInterf
         transform = result.FromJolt();
     }
 
-    public unsafe RMatrix4x4 GetRCenterOfMassTransform(in BodyID bodyID)
+    public unsafe MatrixD GetRCenterOfMassTransform(in BodyID bodyID)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use {nameof(GetCenterOfMassTransform)}");
 
-        RMatrix4x4 result;
+        MatrixD result;
         JPH_BodyInterface_GetCenterOfMassTransformDouble(Handle, bodyID, &result);
         return result;
     }
 
-    public unsafe void GetRCenterOfMassTransform(in BodyID bodyID, out RMatrix4x4 transform)
+    public unsafe void GetRCenterOfMassTransform(in BodyID bodyID, out MatrixD transform)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use {nameof(GetCenterOfMassTransform)}");
 
         Unsafe.SkipInit(out transform);
-        fixed (RMatrix4x4* transformPtr = &transform)
+        fixed (MatrixD* transformPtr = &transform)
         {
             JPH_BodyInterface_GetCenterOfMassTransformDouble(Handle, bodyID, transformPtr);
         }
@@ -503,7 +503,7 @@ public readonly unsafe struct BodyInterface(nint handle) : IEquatable<BodyInterf
         JPH_BodyInterface_MoveKinematic(Handle, bodyId, in targetPosition, in targetRotation, deltaTime);
     }
 
-    public void MoveKinematic(in BodyID bodyId, in RVector3 targetPosition, in Quaternion targetRotation, float deltaTime)
+    public void MoveKinematic(in BodyID bodyId, in Vector3D targetPosition, in Quaternion targetRotation, float deltaTime)
     {
         if (!DoublePrecision)
             throw new InvalidOperationException($"Double precision is disabled: use {nameof(MoveKinematic)}");
@@ -532,7 +532,7 @@ public readonly unsafe struct BodyInterface(nint handle) : IEquatable<BodyInterf
 
     public bool ApplyBuoyancyImpulse(
        in BodyID bodyId,
-       in RVector3 surfacePosition,
+       in Vector3D surfacePosition,
        in Vector3 surfaceNormal,
        float buoyancy, float linearDrag, float angularDrag,
        in Vector3 fluidVelocity,
@@ -636,7 +636,7 @@ public readonly unsafe struct BodyInterface(nint handle) : IEquatable<BodyInterf
         JPH_BodyInterface_AddAngularImpulse(Handle, bodyId, angularImpulse);
     }
 
-    public Matrix4x4 GetInverseInertia(in BodyID bodyId)
+    public Matrix GetInverseInertia(in BodyID bodyId)
     {
         Mat4 joltMatrix;
         JPH_BodyInterface_GetInverseInertia(Handle, bodyId, &joltMatrix);
